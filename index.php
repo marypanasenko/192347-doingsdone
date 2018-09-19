@@ -35,17 +35,6 @@ $tasks = [ [    "task_name" => "Собеседование в IT компани�
             ]
          ];
 
-function myfunc($array, $name_project) {
-    $i=0;
-    foreach ($array as $key=>$value) {
-        if ($value["category"] === $name_project) {
-            $i++;
-        }
-
-        return $i;
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -95,7 +84,7 @@ function myfunc($array, $name_project) {
                                 <a class="main-navigation__list-item-link" href="#">
                                     <?= $item; ?>
                                 </a>
-                                <span class="main-navigation__list-item-count"><?php print myfunc($tasks, "Учеба"); ?></span>
+                                <span class="main-navigation__list-item-count">0</span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
