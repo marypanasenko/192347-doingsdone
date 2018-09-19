@@ -35,16 +35,14 @@ $tasks = [ [    "task_name" => "Собеседование в IT компани�
             ]
          ];
 
-function count_projects($array, $name_project) {
-    $i=0;
-    foreach ($array as $key=>$value) {
-        if ($value["category"] === $name_project) {
-            $i++;
-
+function count_projects($array_project, $name_project) {
+    $counter=0;
+    foreach ($array_project as $key_project=>$value_project) {
+        if ($value_project["category"] === $name_project) {
+            $counter++;
         }
-
     }
-    return $i;
+    return $counter;
 }
 
 ?>
@@ -61,7 +59,6 @@ function count_projects($array, $name_project) {
 
 <body>
 <h1 class="visually-hidden">Дела в порядке</h1>
-
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
         <header class="main-header">
@@ -85,7 +82,6 @@ function count_projects($array, $name_project) {
                 </div>
             </div>
         </header>
-
         <div class="content">
             <section class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
@@ -96,7 +92,7 @@ function count_projects($array, $name_project) {
                                 <a class="main-navigation__list-item-link" href="#">
                                     <?= $item; ?>
                                 </a>
-                                <span class="main-navigation__list-item-count"><?php print count_projects($tasks, $item); ?></span>
+                                <span class="main-navigation__list-item-count"><?= count_projects($tasks, $item); ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -142,17 +138,16 @@ function count_projects($array, $name_project) {
                                            checked
                                         <?php endif; ?>>
                                     <span class="checkbox__text">
-                                         <?php print $item["task_name"]; ?>
+                                         <?= $item["task_name"]; ?>
                                 </span>
                                 </label>
                             </td>
                             <td class="task__date">
-                                <?php print ($item["date"]); ?>
+                                <?= ($item["date"]); ?>
                             </td>
                             </tr>
                      <?php endif; ?>
                     <?php endforeach; ?>
-
                 </table>
             </main>
         </div>
@@ -163,12 +158,9 @@ function count_projects($array, $name_project) {
     <div class="container">
         <div class="main-footer__copyright">
             <p>© 2018, «Дела в порядке»</p>
-
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
         <a class="main-footer__button button button--plus" href="pages/form-task.html">Добавить задачу</a>
-
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">
@@ -207,7 +199,6 @@ function count_projects($array, $name_project) {
                 </svg>
             </a>
         </div>
-
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
 
