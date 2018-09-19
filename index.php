@@ -5,40 +5,35 @@ $show_complete_tasks = rand(0, 1);
 $projects = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 $tasks = [ [    "task_name" => "Собеседование в IT компании",
                 "date" => "01.12.2018",
-                "category" => "$projects[2]",
-                 "done" => "0"
+                "category" => $projects[2],
+                 "done" => false
             ],
             [   "task_name" => "Выполнить тестовое задание",
                 "date" => "25.12.2018",
-                "category" => "$projects[2]",
-                "done" => "0"
+                "category" => $projects[2],
+                "done" => false
             ],
             [   "task_name" => "Сделать задание первого раздела",
                 "date" => "21.12.2018",
-                "category" => "$projects[1]",
-                "done" => "1"
+                "category" => $projects[1],
+                "done" => true
             ],
             [   "task_name" => "Встреча с другом",
                 "date" => "22.12.2018",
-                "category" => "$projects[0]",
-                "done" => "0"
+                "category" => $projects[0],
+                "done" => false
             ],
             [   "task_name" => "Купить корм для кота",
                 "date" => "Нет",
-                "category" => "$projects[3]",
-                "done" => "0"
+                "category" => $projects[3],
+                "done" => false
             ],
             [   "task_name" => "Заказать пиццу",
                 "date" => "Нет",
-                "category" => "$projects[3]",
-                "done" => "0"
+                "category" => $projects[3],
+                "done" => false
             ]
          ];
-$i = 0;
-$u = 0;
-$projects_count = count($projects);
-$tasks_count = count($tasks);
-
 
 ?>
 <!DOCTYPE html>
@@ -84,17 +79,14 @@ $tasks_count = count($tasks);
                 <h2 class="content__side-heading">Проекты</h2>
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?php while ($i < $projects_count): ?>
+                        <?php foreach ($projects as $key => $item): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#">
-                                    <?php if ($i < $projects_count):
-                                        echo $projects[$i];
-                                        $i++;
-                                    endif;?>
+                                    <?= $item; ?>
                                 </a>
                                 <span class="main-navigation__list-item-count">0</span>
                             </li>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </nav>
                 <a class="button button--transparent button--plus content__side-button"
@@ -128,27 +120,23 @@ $tasks_count = count($tasks);
                     <?php foreach ($tasks as $key => $item): ?>
                     <?php if (($show_complete_tasks and $item["done"]) or !$item["done"]): ?>
                             <tr class="tasks__item task
-                            <?php if ($item["done"]):
-                                print "task--completed";
-                            endif; ?>"
+                            <?php if ($item["done"]): ?>
+                                task--completed
+                            <?php endif; ?>"
                             ">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
                                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
                                         <?php if ($item["done"]): ?>
                                            checked
-                                    <?php endif; ?>">
+                                        <?php endif; ?>">
                                     <span class="checkbox__text">
-                                    <?php if ($u < $tasks_count):
-                                        print ($item["task_name"]);
-                                    endif; ?>
+                                         <?php print $item["task_name"]; ?>
                                 </span>
                                 </label>
                             </td>
                             <td class="task__date">
-                                <?php if ($u < $tasks_count):
-                                    print ($item["date"]);
-                                endif; ?>
+                                <?php print ($item["date"]); ?>
                             </td>
                             </tr>
                      <?php endif; ?>
