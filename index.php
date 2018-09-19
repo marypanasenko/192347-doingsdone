@@ -35,6 +35,17 @@ $tasks = [ [    "task_name" => "Собеседование в IT компани�
             ]
          ];
 
+function myfunc($array, $name_project) {
+    $i=0;
+    foreach ($array as $key=>$value) {
+        if ($value["category"] === $name_project) {
+            $i++;
+        }
+
+        return $i;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -84,7 +95,7 @@ $tasks = [ [    "task_name" => "Собеседование в IT компани�
                                 <a class="main-navigation__list-item-link" href="#">
                                     <?= $item; ?>
                                 </a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count"><?php print myfunc($tasks, "Учеба"); ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -122,14 +133,13 @@ $tasks = [ [    "task_name" => "Собеседование в IT компани�
                             <tr class="tasks__item task
                             <?php if ($item["done"]): ?>
                                 task--completed
-                            <?php endif; ?>"
-                            ">
+                            <?php endif; ?>">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
                                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
                                         <?php if ($item["done"]): ?>
                                            checked
-                                        <?php endif; ?>">
+                                        <?php endif; ?>>
                                     <span class="checkbox__text">
                                          <?php print $item["task_name"]; ?>
                                 </span>
