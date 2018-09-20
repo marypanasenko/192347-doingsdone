@@ -1,7 +1,5 @@
 <?php
 
-
-
 function include_template($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
@@ -18,7 +16,6 @@ function include_template($name, $data) {
 
     return $result;
 }
-
 
 function count_projects($array_project, $name_project) {
     $counter=0;
