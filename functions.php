@@ -18,8 +18,8 @@ function include_template($name, $data) {
 }
 
 function count_projects($array_project, $name_project) {
-    $counter=0;
-    foreach ($array_project as $key_project=>$value_project) {
+    $counter = 0;
+    foreach ($array_project as $key_project => $value_project) {
         if ($value_project["category"] === $name_project) {
             $counter++;
         }

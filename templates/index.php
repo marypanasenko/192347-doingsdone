@@ -34,7 +34,7 @@
                                 checked
                             <?php endif; ?>>
                         <span class="checkbox__text">
-                                         <?= $item["task_name"]; ?>
+                            <?= htmlspecialchars($item["task_name"]); ?>
                                 </span>
                     </label>
                 </td>
