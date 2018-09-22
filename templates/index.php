@@ -24,18 +24,22 @@
     <?php foreach ($tasks as $key => $item): ?>
         <?php if (($show_complete_tasks and $item["done"]) or !$item["done"]): ?>
             <tr class="tasks__item task
-                            <?php if ($item["done"]): ?>
-                                task--completed
-                            <?php endif; ?>">
+                <?php if ($item["done"]): ?>
+                    task--completed
+                <?php endif; ?>
+                <?php if (is_numeric(time_left($item["date"])) and time_left($item["date"]) <= 24): ?>
+                     task--important
+                <?php endif; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
+                        <input class="checkbox__input visually-hidden task__checkbox
+" type="checkbox" value="1"
                             <?php if ($item["done"]): ?>
                                 checked
                             <?php endif; ?>>
                         <span class="checkbox__text">
                             <?= htmlspecialchars($item["task_name"]); ?>
-                                </span>
+                        </span>
                     </label>
                 </td>
                 <td class="task__date">
@@ -45,3 +49,4 @@
         <?php endif; ?>
     <?php endforeach; ?>
 </table>
+
