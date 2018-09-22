@@ -27,9 +27,7 @@
                 <?php if ($item["done"]): ?>
                     task--completed
                 <?php endif; ?>
-                <?php if (is_numeric(time_left($item["date"])) and time_left($item["date"]) <= 24): ?>
-                     task--important
-                <?php endif; ?>">
+                <?= time_left($item["date"]) ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox

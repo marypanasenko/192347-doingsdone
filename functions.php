@@ -30,17 +30,16 @@ function count_projects($array_project, $name_project) {
 function time_left($date) {
     date_default_timezone_set("Europe/Moscow");
 
-    if ($date === "Нет") {
-        $date = "";
-        $hours_left = $date;
-    }
-    else {
+    if ($date !== "Нет") {
+
         $task_date = strtotime($date);
         $secs_to_date = $task_date - strtotime("now");
         $hours_left = floor ($secs_to_date / 3600);
-    }
 
-    return $hours_left;
+        if ($hours_left <= 24) {
+            return "task--important";
+        }
+    }
 }
 
 
