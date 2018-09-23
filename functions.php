@@ -26,3 +26,20 @@ function count_projects($array_project, $name_project) {
     }
     return $counter;
 }
+
+function time_left($date) {
+    date_default_timezone_set("Europe/Moscow");
+
+    if ($date !== "Нет") {
+
+        $task_date = strtotime($date);
+        $secs_to_date = $task_date - strtotime("now");
+        $hours_left = floor ($secs_to_date / 3600);
+
+        if ($hours_left <= 24) {
+            return "task--important";
+        }
+    }
+}
+
+
