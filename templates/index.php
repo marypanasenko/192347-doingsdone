@@ -1,7 +1,7 @@
 <h2 class="content__main-heading">Список задач</h2>
 
-<form class="search-form" action="index.php" method="post">
-    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+<form class="search-form" action="index.php" method="get">
+    <input class="search-form__input" type="text" name="q" value placeholder="Поиск по задачам">
 
     <input class="search-form__submit" type="submit" name="" value="Искать">
 </form>
@@ -22,17 +22,16 @@
 </div>
 <table class="tasks">
     <?php foreach ($tasks as $key => $item): ?>
-        <?php if (($show_complete_tasks and $item["done"]) or !$item["done"]): ?>
+        <?php if (($show_complete_tasks and $item["task_status"]) or !$item["task_status"]): ?>
             <tr class="tasks__item task
-                <?php if ($item["done"]): ?>
+                <?php if ($item["task_status"]): ?>
                     task--completed
                 <?php endif; ?>
-                <?= time_left($item["date"]) ?>">
+                <?= time_left($item["task_deadline"]) ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox
-" type="checkbox" value="1"
-                            <?php if ($item["done"]): ?>
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
+                            <?php if ($item["task_status"]): ?>
                                 checked
                             <?php endif; ?>>
                         <span class="checkbox__text">
@@ -40,8 +39,20 @@
                         </span>
                     </label>
                 </td>
-                <td class="task__date">
-                    <?= ($item["date"]); ?>
+                <td class="task__file">
+                    <?php if ($item["file"] !== NULL): ?>
+                    <a class="download-link" href="#">
+                        <?= $item["file"] ?>
+                    </a>
+                    <?php endif; ?>
+                </td>
+                <td class="task__task_deadline">
+                    <?php
+                        if ($item["task_deadline"] == NULL):
+                            print "Нет";
+                        else:
+                            print $item["task_deadline"];
+                    endif;?>
                 </td>
             </tr>
         <?php endif; ?>

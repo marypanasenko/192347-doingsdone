@@ -20,7 +20,7 @@ function include_template($name, $data) {
 function count_projects($array_project, $name_project) {
     $counter = 0;
     foreach ($array_project as $key_project => $value_project) {
-        if ($value_project["category"] === $name_project) {
+        if ($value_project["project_id"] === $name_project) {
             $counter++;
         }
     }
@@ -30,7 +30,7 @@ function count_projects($array_project, $name_project) {
 function time_left($date) {
     date_default_timezone_set("Europe/Moscow");
 
-    if ($date !== "Нет") {
+    if ($date !== NULL) {
 
         $task_date = strtotime($date);
         $secs_to_date = $task_date - strtotime("now");
@@ -41,5 +41,9 @@ function time_left($date) {
         }
     }
 }
+
+//function date_format($date) {
+//
+//}
 
 

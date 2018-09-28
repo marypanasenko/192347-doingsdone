@@ -42,9 +42,9 @@
                         <?php foreach ($projects as $key => $item): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#">
-                                    <?= $item; ?>
+                                    <?= htmlspecialchars($item["project_name"]); ?>
                                 </a>
-                                <span class="main-navigation__list-item-count"><?= count_projects($tasks, $item); ?></span>
+                                <span class="main-navigation__list-item-count"><?= count_projects($tasks, $item["id"]); ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
