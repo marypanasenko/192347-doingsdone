@@ -17,16 +17,6 @@ function include_template($name, $data) {
     return $result;
 }
 
-function count_projects($array_project, $name_project) {
-    $counter = 0;
-    foreach ($array_project as $key_project => $value_project) {
-        if ($value_project["project_id"] === $name_project) {
-            $counter++;
-        }
-    }
-    return $counter;
-}
-
 function time_left($date) {
     date_default_timezone_set("Europe/Moscow");
 

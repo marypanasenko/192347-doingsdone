@@ -44,7 +44,7 @@
                                 <a class="main-navigation__list-item-link" href="/?tab=<?= $item["id"] ?>">
                                     <?= htmlspecialchars($item["project_name"]); ?>
                                 </a>
-                                <span class="main-navigation__list-item-count"><?= count_projects($tasks, $item["id"]); ?></span>
+                                <span class="main-navigation__list-item-count"><?= $item["cnt"]; ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
