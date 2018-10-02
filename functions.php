@@ -46,8 +46,9 @@ function tasks_sql($current_user) {
     $connection = mysqli_connect("localhost", "root", "1718","done");
     mysqli_set_charset($connection, "utf8");
 
-    $sql = "SELECT id, date_start, date_done, task_status, task_name, file, date_format(task_deadline, '%d.%m.%Y') AS task_deadline, user_id, project_id
-FROM tasks  where user_id = $current_user";
+    $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
+            FROM tasks AS t 
+            WHERE user_id = $current_user";
 
     $result = mysqli_query($connection, $sql);
 
@@ -68,9 +69,9 @@ FROM tasks  where user_id = $current_user";
 function projects_sql($current_user) {
     $connection = mysqli_connect("localhost", "root", "1718","done");
     mysqli_set_charset($connection, "utf8");
-    $sql = "Select p.*, COUNT(t.project_id) AS cnt 
-            FROM projects as p 
-            LEFT JOIN tasks as t ON t.project_id = p.id 
+    $sql = "SELECT p.*, COUNT(t.project_id) AS cnt 
+            FROM projects AS p 
+            LEFT JOIN tasks AS t ON t.project_id = p.id 
             WHERE p.user_id = $current_user
             GROUP BY p.id";
 
