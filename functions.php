@@ -42,8 +42,50 @@ function time_left($date) {
     }
 }
 
-//function date_format($date) {
-//
-//}
+function tasks_sql($current_user) {
+    $connection = mysqli_connect("localhost", "root", "1718","done");
+    mysqli_set_charset($connection, "utf8");
 
+    $sql = "SELECT id, date_start, date_done, task_status, task_name, file, date_format(task_deadline, '%d.%m.%Y') AS task_deadline, user_id, project_id
+FROM tasks  where user_id = $current_user";
 
+    $result = mysqli_query($connection, $sql);
+
+    if (!$result) {
+        $error = mysqli_error($connection);
+        $content = include_template("error.php", ["error" => $error]);
+
+        print ($content);
+        exit();
+
+    } else {
+        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $tasks;
+}
+
+function projects_sql($current_user) {
+    $connection = mysqli_connect("localhost", "root", "1718","done");
+    mysqli_set_charset($connection, "utf8");
+    $sql = "Select p.*, COUNT(t.project_id) AS cnt 
+            FROM projects as p 
+            LEFT JOIN tasks as t ON t.project_id = p.id 
+            WHERE p.user_id = $current_user
+            GROUP BY p.id";
+
+    $result = mysqli_query($connection, $sql);
+
+    if (!$result) {
+        $error = mysqli_error($connection);
+        $content = include_template("error.php", ["error" => $error]);
+
+        print ($content);
+        exit();
+
+    } else {
+        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $projects;
+}

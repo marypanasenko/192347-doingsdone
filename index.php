@@ -2,10 +2,6 @@
 
 require_once("functions.php");
 
-//require_once("data.php");
-
-//подключение к БД
-
 $connection = mysqli_connect("localhost", "root", "1718","done");
 
 $current_user = 1;
@@ -20,40 +16,10 @@ if (!$connection) {
     exit();
 }
 
-else {
-    mysqli_set_charset($connection, "utf8");
-    $sql = "SELECT id, project_name, user_id FROM projects where user_id = $current_user";
-    $result = mysqli_query($connection, $sql);
+mysqli_set_charset($connection, "utf8");
 
-    if (!$result) {
-        $error = mysqli_error($connection);
-        $content = include_template("error.php", ["error" => $error]);
-
-        print ($content);
-        exit();
-
-    } else {
-        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-
-    $sql = "SELECT id, date_start, date_done, task_status, task_name, file, date_format(task_deadline, '%d.%m.%Y')  AS task_deadline, user_id, project_id FROM tasks WHERE user_id = $current_user";
-    $result = mysqli_query($connection, $sql);
-
-
-    if (!$result) {
-        $error = mysqli_error($connection);
-        $content = include_template("error.php", ["error" => $error]);
-
-        print ($content);
-        exit();
-
-    } else {
-        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    }
-
-}
-
+$projects = projects_sql($current_user);
+$tasks = tasks_sql($current_user);
 
 $page_content = include_template("index.php", [
     "tasks" => $tasks,
