@@ -17,20 +17,10 @@ function include_template($name, $data) {
     return $result;
 }
 
-function count_projects($array_project, $name_project) {
-    $counter = 0;
-    foreach ($array_project as $key_project => $value_project) {
-        if ($value_project["category"] === $name_project) {
-            $counter++;
-        }
-    }
-    return $counter;
-}
-
 function time_left($date) {
     date_default_timezone_set("Europe/Moscow");
 
-    if ($date !== "Нет") {
+    if ($date !== NULL) {
 
         $task_date = strtotime($date);
         $secs_to_date = $task_date - strtotime("now");
@@ -42,4 +32,49 @@ function time_left($date) {
     }
 }
 
+function error_template ($connection) {
+    $error = mysqli_error($connection);
+    $content = include_template("error.php", ["error" => $error]);
+    print ($content);
+    exit();
+}
 
+function tasks_sql($current_user, $connection) {
+    $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
+            FROM tasks AS t 
+            WHERE user_id = $current_user";
+
+    $result = mysqli_query($connection, $sql);
+
+    if (!$result) {
+        error_template($connection);
+    } else {
+        $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $tasks;
+}
+
+function projects_sql($current_user, $connection) {
+
+    $sql = "SELECT p.*, COUNT(t.project_id) AS cnt 
+            FROM projects AS p 
+            LEFT JOIN tasks AS t ON t.project_id = p.id 
+            WHERE p.user_id = $current_user
+            GROUP BY p.id";
+
+    $result = mysqli_query($connection, $sql);
+
+    if (!$result) {
+        $error = mysqli_error($connection);
+        $content = include_template("error.php", ["error" => $error]);
+
+        print ($content);
+        exit();
+
+    } else {
+        $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+    return $projects;
+}
