@@ -32,10 +32,14 @@ function time_left($date) {
     }
 }
 
-function tasks_sql($current_user) {
-    $connection = mysqli_connect("localhost", "root", "1718","done");
-    mysqli_set_charset($connection, "utf8");
+function error_template ($connection) {
+    $error = mysqli_error($connection);
+    $content = include_template("error.php", ["error" => $error]);
+    print ($content);
+    exit();
+}
 
+function tasks_sql($current_user, $connection) {
     $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
             FROM tasks AS t 
             WHERE user_id = $current_user";
@@ -43,12 +47,7 @@ function tasks_sql($current_user) {
     $result = mysqli_query($connection, $sql);
 
     if (!$result) {
-        $error = mysqli_error($connection);
-        $content = include_template("error.php", ["error" => $error]);
-
-        print ($content);
-        exit();
-
+        error_template($connection);
     } else {
         $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
@@ -56,9 +55,8 @@ function tasks_sql($current_user) {
     return $tasks;
 }
 
-function projects_sql($current_user) {
-    $connection = mysqli_connect("localhost", "root", "1718","done");
-    mysqli_set_charset($connection, "utf8");
+function projects_sql($current_user, $connection) {
+
     $sql = "SELECT p.*, COUNT(t.project_id) AS cnt 
             FROM projects AS p 
             LEFT JOIN tasks AS t ON t.project_id = p.id 
