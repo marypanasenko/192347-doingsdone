@@ -39,10 +39,28 @@ function error_template ($connection) {
     exit();
 }
 
-function tasks_sql($current_user, $connection) {
+function get_project_id($current_user, $connection, $project_id) {
+
+
+        $sql = "SELECT p.*
+        FROM projects AS p
+        WHERE user_id = $current_user
+        AND id = $project_id";
+
+        $result = mysqli_query($connection, $sql);
+        $project_id_result = mysqli_fetch_row($result);
+
+        return $project_id_result;
+
+    }
+
+
+function tasks_sql($current_user, $connection, $project_id) {
+    $add_and = isset($project_id) ? "AND project_id = $project_id" : null;
+
     $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
             FROM tasks AS t 
-            WHERE user_id = $current_user";
+            WHERE user_id = $current_user $add_and";
 
     $result = mysqli_query($connection, $sql);
 
@@ -51,9 +69,9 @@ function tasks_sql($current_user, $connection) {
     } else {
         $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
-
     return $tasks;
 }
+
 
 function projects_sql($current_user, $connection) {
 
@@ -75,6 +93,5 @@ function projects_sql($current_user, $connection) {
     } else {
         $projects = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
-
     return $projects;
 }
