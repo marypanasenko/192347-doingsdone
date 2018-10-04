@@ -7,18 +7,17 @@ $current_user = 1;
 $show_complete_tasks = rand(0, 1);
 
 $project_id = isset($_GET["project_id"]) ? intval($_GET["project_id"]) : null;
-$add_and = isset($_GET["project_id"]) ? "AND project_id = $project_id" : null;
 
 if (!$connection) {
     error_template ($connection);
 }
 
 $projects = projects_sql($current_user, $connection);
-$tasks = tasks_sql($current_user, $connection, $add_and);
+$tasks = tasks_sql($current_user, $connection, $project_id);
 
 
 if (isset($_GET["project_id"])) {
-    $array_result = project_id($current_user, $connection, $project_id);
+    $array_result = get_project_id($current_user, $connection, $project_id);
 
     if ($array_result == null || !$array_result) {
         header("HTTP/1.0 404 Not Found");

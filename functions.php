@@ -39,8 +39,8 @@ function error_template ($connection) {
     exit();
 }
 
-function project_id($current_user, $connection, $project_id) {
-    if (isset($project_id)) {
+function get_project_id($current_user, $connection, $project_id) {
+
 
         $sql = "SELECT p.*
         FROM projects AS p
@@ -51,12 +51,12 @@ function project_id($current_user, $connection, $project_id) {
         $project_id_result = mysqli_fetch_row($result);
 
         return $project_id_result;
-        }
+
     }
 
 
-function tasks_sql($current_user, $connection, $add_and) {
-
+function tasks_sql($current_user, $connection, $project_id) {
+    $add_and = isset($project_id) ? "AND project_id = $project_id" : null;
 
     $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
             FROM tasks AS t 
