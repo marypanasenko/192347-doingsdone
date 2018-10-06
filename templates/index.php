@@ -40,7 +40,7 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <?php if ($item["file"] !== NULL): ?>
+                    <?php if ($item["file"] !== NULL and $item["file"] !== ""): ?>
                     <a class="download-link" href="../uploads/<?= $item["file"] ?>">
                         <?= $item["file"] ?>
                     </a>
@@ -49,6 +49,8 @@
                 <td class="task__task_deadline">
                     <?php
                         if ($item["task_deadline"] == NULL):
+                            print "Нет";
+                        elseif ($item["task_deadline"] == "01.01.1970"):
                             print "Нет";
                         else:
                             print $item["task_deadline"];

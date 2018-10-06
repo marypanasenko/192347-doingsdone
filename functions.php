@@ -1,7 +1,5 @@
 <?php
 
-
-
 function include_template($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
@@ -98,15 +96,15 @@ function projects_sql($current_user, $connection) {
     return $projects;
 }
 
-/**
- * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
- *
- * @param $link mysqli Ресурс соединения
- * @param $sql string SQL запрос с плейсхолдерами вместо значений
- * @param array $data Данные для вставки на место плейсхолдеров
- *
- * @return mysqli_stmt Подготовленное выражение
- */
+function post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user) {
+    $sql = "INSERT INTO tasks (task_name, task_deadline, file, project_id, user_id) VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = db_get_prepare_stmt($connection, $sql, [$tasks["task_name"], $uploded_date, $uploded_file, $tasks["project_id"], $current_user]);
+    $res = mysqli_stmt_execute($stmt);
+
+    return $res;
+}
+
 function db_get_prepare_stmt($connection, $sql, $data = []) {
     $stmt = mysqli_prepare($connection, $sql);
 
