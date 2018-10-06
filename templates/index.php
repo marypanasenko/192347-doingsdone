@@ -41,7 +41,7 @@
                 </td>
                 <td class="task__file">
                     <?php if ($item["file"] !== NULL): ?>
-                    <a class="download-link" href="#">
+                    <a class="download-link" href="../uploads/<?= $item["file"] ?>">
                         <?= $item["file"] ?>
                     </a>
                     <?php endif; ?>
