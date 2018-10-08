@@ -3,18 +3,27 @@ require_once("functions.php");
 require_once("init.php");
 require_once("db_data.php");
 
-$errors = [];
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tasks = $_POST["tasks"];
 
-    $required = ["task_name"];
-
-    foreach ($tasks as $field) {
-        if (empty($tasks[$field])) {
-            $errors[$field] = 1;
+    $required = ["task_name", "project_id"];
+    $errors = [];
+    foreach ($required as $field => $key) {
+        if (empty($tasks[$key])) {
+            $errors[$key] = "Заполнить";
         }
     }
+
+    $project_id = $tasks["project_id"];
+    $dt_project_id = get_project_id($current_user, $connection, $project_id);
+
+
+    if ($project_id !== current($dt_project_id)) {
+        $errors["project_id"] = "Заполнить";
+    }
+
 
     if ($_FILES['file']['name'] !== "") {
         $tmp_name = $_FILES['file']['tmp_name'];
@@ -41,26 +50,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (count($errors)) {
 
-        $page_content = include_template("form-task.php", [ "errors" => $errors,]);
+        $page_content = include_template("form-task.php", [ "tasks" => $tasks, "errors" => $errors, "projects" => $projects]);
+        $content = include_template("error.php", ["error" => mysqli_error($connection)]);
 
     } else {
         $result_post_task = post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user);
-    }
-
-    var_dump($errors);
-
-    if ($result_post_task) {
         header("Location: index.php?project_id=" . $tasks["project_id"]);
-    } else {
-        $content = include_template("error.php", ["error" => mysqli_error($connection)]);
-        print ($content);
-        exit();
     }
 
 }
+else {
+    $page_content = include_template("form-task.php", ["projects" => $projects]);
+}
 
 
-$page_content = include_template("form-task.php", ["projects" => $projects]);
 $layout_content = include_template("layout.php", [
     "page_content" => $page_content,
     "projects" => $projects,

@@ -3,7 +3,7 @@
 
                 <form class="form"  action="add.php" method="post" enctype="multipart/form-data">
                     <div class="form__row">
-                        <?php if (isset($task_name_error)): ?>
+                        <?php if (isset($errors["task_name"])): ?>
                         <p class="form__message">
                             <span class="error-message">«Заполните это поле»</span>
                         </p>
@@ -11,16 +11,24 @@
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
                         <input class="form__input
-                        <?php if (isset($task_name_error)): ?>
+                        <?php if (isset($errors["task_name"])): ?>
                             form__input--error
                         <?php endif; ?>
                         " type="text" name="tasks[task_name]" id="name" value="" placeholder="Введите название">
                     </div>
 
                     <div class="form__row">
+                        <?php if (isset($errors["project_id"])): ?>
+                            <p class="form__message">
+                                <span class="error-message">«Заполните это поле»</span>
+                            </p>
+                        <?php endif; ?>
                         <label class="form__label" for="project">Проект <sup>*</sup></label>
 
-                        <select class="form__input form__input--select" name="tasks[project_id]" id="project">
+                        <select class="form__input form__input--select
+                        <?php if (isset($errors["project_id"])): ?>
+                            form__input--error
+                        <?php endif; ?>" name="tasks[project_id]" id="project">
                             <?php foreach ($projects as $key => $item): ?>
                             <option value="<?= $item["id"] ?>"><?= htmlspecialchars($item["project_name"]); ?></option>
                             <?php endforeach; ?>
