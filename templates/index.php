@@ -48,9 +48,7 @@
                 </td>
                 <td class="task__task_deadline">
                     <?php
-                        if ($item["task_deadline"] == NULL):
-                            print "Нет";
-                        elseif ($item["task_deadline"] == "01.01.1970"):
+                        if ($item["task_deadline"] == NULL || $item["task_deadline"] == "01.01.1970"):
                             print "Нет";
                         else:
                             print $item["task_deadline"];

@@ -3,7 +3,7 @@
 
                 <form class="form"  action="add.php" method="post" enctype="multipart/form-data">
                     <div class="form__row">
-                        <?php if (isset($errors["task_name"])): ?>
+                        <?php if (isset($task_name_error)): ?>
                         <p class="form__message">
                             <span class="error-message">«Заполните это поле»</span>
                         </p>
@@ -11,7 +11,7 @@
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
                         <input class="form__input
-                        <?php if (isset($errors["task_name"])): ?>
+                        <?php if (isset($task_name_error)): ?>
                             form__input--error
                         <?php endif; ?>
                         " type="text" name="tasks[task_name]" id="name" value="" placeholder="Введите название">
