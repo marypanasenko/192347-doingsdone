@@ -8,9 +8,8 @@
 Thumbs.db
 vendor
 /templates/form-authorization.php
-/templates/form-register.php
-/templates/guest.php
 
-register.php
+
+
 authorization.php
 phpinfo.php

@@ -6,11 +6,12 @@ USE done;
 
 CREATE TABLE users (
 id INT AUTO_INCREMENT PRIMARY KEY,
-date DATETIME,
+reg_date DATETIME,
 email CHAR(50) NOT NULL,
 user_name CHAR(50),
-user_pass CHAR(50),
-contacts TEXT
+user_pass CHAR(225),
+contacts TEXT,
+token TEXT
 );
 
 CREATE TABLE projects (

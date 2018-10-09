@@ -1,7 +1,7 @@
-INSERT INTO users (date, email, user_name, user_pass, contacts)
+INSERT INTO users (reg_date, email, user_name, user_pass, contacts, token)
 VALUES
-    ("2017.12.12", "sasha@gmail.com", "Александр", "12345", "г.Симферополь"),
-    ("2018.01.02", "masha@gmail.com", "Мария", "12345", "г.Симферополь");
+    ("2017.12.12", "sasha@gmail.com", "Александр", "12345", "г.Симферополь", ""),
+    ("2018.01.02", "masha@gmail.com", "Мария", "12345", "г.Симферополь", "");
 
 INSERT INTO projects (project_name, user_id)
 VALUES
