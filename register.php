@@ -34,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (count($errors)) {
         $tpl_data['values'] = $register;
         $tpl_data['errors'] = $errors;
-        $page_content = include_template("form-register.php", $tpl_data);
     } else {
 
         $new_user = registration($register, $connection);
@@ -48,12 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             print ($content);
             exit();
         }
-
     }
-
 }
 
-$page_content = include_template("form-register.php",[]);
+$page_content = include_template("form-register.php", $tpl_data);
 
 $layout_content = include_template("layout.php", [
     "page_content" => $page_content,
