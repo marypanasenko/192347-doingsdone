@@ -104,6 +104,16 @@ function post_task($tasks, $connection, $uploded_date, $uploded_file, $current_u
 
     return $res;
 }
+function registration($register, $connection) {
+    $password_hash = password_hash($register['password'], PASSWORD_DEFAULT);
+
+    $sql = 'INSERT INTO users (reg_date, email, user_name, user_pass, token) VALUES (NOW(), ?, ?, ?, "")';
+    $stmt = db_get_prepare_stmt($connection, $sql, [$register['email'], $register["name"], $password_hash]);
+    $result = mysqli_stmt_execute($stmt);
+
+    return $result;
+
+}
 
 function db_get_prepare_stmt($connection, $sql, $data = []) {
     $stmt = mysqli_prepare($connection, $sql);
