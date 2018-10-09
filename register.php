@@ -5,7 +5,6 @@ require_once("db_data.php");
 
 
 $errors = [];
-
 $tpl_data = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -50,9 +49,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+
+$container_with_sidebar = "container--with-sidebar";
+$content_side = include_template("content-side.php", [
+    "projects" => $projects,
+]);
+
 $page_content = include_template("form-register.php", $tpl_data);
 
 $layout_content = include_template("layout.php", [
+    "body_background" => "",
+    "container_with_sidebar" => $container_with_sidebar,
+    "content_side" => $content_side,
     "page_content" => $page_content,
     "projects" => $projects,
     "title" => "Дела в порядке",
