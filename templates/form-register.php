@@ -16,7 +16,7 @@
               <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
               <input class="form__input
-                <?php if (isset($errors["email"]) || isset($errors["email_duplicate"])): ?>
+                <?php if (isset($errors["email"]) || isset($errors["email_duplicate"]) || isset($errors["filter-email"])): ?>
                     form__input--error
                 <?php endif; ?>
                 " type="text" name="signup[email]" id="email" value="<?=$values['email'] ?? ''; ?>" placeholder="Введите e-mail">

@@ -19,15 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $email = mysqli_real_escape_string($connection, $register['email']);
-    $sql = "SELECT id FROM users WHERE email = '$email'";
-    $res = mysqli_query($connection, $sql);
+    $result_check = email_check($connection, $register);
 
-
-    if (mysqli_num_rows($res) > 0) {
+    if (mysqli_num_rows($result_check) > 0) {
         $errors["email_duplicate"] = 1;
     }
-
 
     $filter_email = filter_var($register["email"], FILTER_VALIDATE_EMAIL);
 
@@ -55,10 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 
-} else {
-    $page_content = include_template("form-register.php",[]);
 }
 
+$page_content = include_template("form-register.php",[]);
 
 $layout_content = include_template("layout.php", [
     "page_content" => $page_content,

@@ -115,6 +115,15 @@ function registration($register, $connection) {
 
 }
 
+function email_check($connection, $register) {
+    $email = mysqli_real_escape_string($connection, $register['email']);
+    $sql = "SELECT id FROM users WHERE email = '$email'";
+    $result = mysqli_query($connection, $sql);
+
+    return $result;
+
+}
+
 function db_get_prepare_stmt($connection, $sql, $data = []) {
     $stmt = mysqli_prepare($connection, $sql);
 
