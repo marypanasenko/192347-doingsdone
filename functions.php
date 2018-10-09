@@ -95,3 +95,47 @@ function projects_sql($current_user, $connection) {
     }
     return $projects;
 }
+
+function post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user) {
+    $sql = "INSERT INTO tasks (task_name, task_deadline, file, project_id, user_id) VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = db_get_prepare_stmt($connection, $sql, [$tasks["task_name"], $uploded_date, $uploded_file, $tasks["project_id"], $current_user]);
+    $res = mysqli_stmt_execute($stmt);
+
+    return $res;
+}
+
+function db_get_prepare_stmt($connection, $sql, $data = []) {
+    $stmt = mysqli_prepare($connection, $sql);
+
+    if ($data) {
+        $types = '';
+        $stmt_data = [];
+
+        foreach ($data as $value) {
+            $type = null;
+
+            if (is_int($value)) {
+                $type = 'i';
+            }
+            else if (is_string($value)) {
+                $type = 's';
+            }
+            else if (is_double($value)) {
+                $type = 'd';
+            }
+
+            if ($type) {
+                $types .= $type;
+                $stmt_data[] = $value;
+            }
+        }
+
+        $values = array_merge([$stmt, $types], $stmt_data);
+
+        $func = 'mysqli_stmt_bind_param';
+        $func(...$values);
+    }
+
+    return $stmt;
+}
