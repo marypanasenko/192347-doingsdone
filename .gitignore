@@ -7,9 +7,10 @@
 *.sublime*
 Thumbs.db
 vendor
-/templates/form-authorization.php
 
 
 
-authorization.php
+header-auth-user.php
+header-non-auth-user.php
+
 phpinfo.php

@@ -3,16 +3,16 @@ require_once("functions.php");
 require_once("init.php");
 require_once("db_data.php");
 
-
+$errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tasks = $_POST["tasks"];
 
     $required = ["task_name", "project_id"];
-    $errors = [];
-    foreach ($required as $field => $key) {
-        if (empty($tasks[$key])) {
-            $errors[$key] = "Заполнить";
+
+    foreach ($required as $field) {
+        if (empty($tasks[$field])) {
+            $errors[$field] = "«Заполните это поле»";
         }
     }
 
@@ -48,23 +48,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $uploded_date = "1970.01.01";
     }
 
-    if (count($errors)) {
-
-        $page_content = include_template("form-task.php", [ "tasks" => $tasks, "errors" => $errors, "projects" => $projects]);
-        $content = include_template("error.php", ["error" => mysqli_error($connection)]);
-
-    } else {
+    if (!count($errors)) {
         $result_post_task = post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user);
-        header("Location: index.php?project_id=" . $tasks["project_id"]);
+
+        if ($result_post_task) {
+            header("Location: index.php?project_id=" . $tasks["project_id"]);
+        } else {
+            $error = mysqli_error($connection);
+            $content = include_template("error.php", ["error" => $error]);
+
+            print ($content);
+            exit();
+        }
     }
-
-}
-else {
-    $page_content = include_template("form-task.php", ["projects" => $projects]);
 }
 
 
+$page_content = include_template("form-task.php", [
+    "tasks" => $tasks,
+    "errors" => $errors,
+    "projects" => $projects
+]);
+
+$content_side = include_template("content-side.php", [
+    "projects" => $projects,
+]);
 $layout_content = include_template("layout.php", [
+    "body_background" => "",
+    "container_with_sidebar" => $container_with_sidebar,
+    "content_side" => $content_side,
     "page_content" => $page_content,
     "projects" => $projects,
     "title" => "Дела в порядке",

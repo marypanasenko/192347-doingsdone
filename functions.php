@@ -124,6 +124,16 @@ function email_check($connection, $register) {
 
 }
 
+function session($connection,  $authorization) {
+    $email = mysqli_real_escape_string($connection, $authorization['email']);
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $res = mysqli_query($connection, $sql);
+
+    $session_array = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
+
+    return $session_array;
+}
+
 function db_get_prepare_stmt($connection, $sql, $data = []) {
     $stmt = mysqli_prepare($connection, $sql);
 
