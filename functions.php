@@ -32,7 +32,7 @@ function time_left($date) {
     }
 }
 
-function error_template ($connection) {
+function error_template($connection) {
     $error = mysqli_error($connection);
     $content = include_template("error.php", ["error" => $error]);
     print ($content);
@@ -53,6 +53,21 @@ function get_project_id($current_user, $connection, $project_id) {
         return $project_id_result;
 
     }
+
+function get_project_name($current_user, $connection, $project_name) {
+
+
+    $sql = "SELECT p.project_name
+        FROM projects AS p
+        WHERE user_id = $current_user
+        AND project_name = '$project_name'";
+
+    $result = mysqli_query($connection, $sql);
+    $project_name_result = mysqli_fetch_row($result);
+
+    return $project_name_result;
+
+}
 
 
 function tasks_sql($current_user, $connection, $project_id) {
@@ -104,6 +119,15 @@ function post_task($tasks, $connection, $uploded_date, $uploded_file, $current_u
 
     return $res;
 }
+
+function post_project($projects, $connection, $current_user) {
+    $sql = "INSERT INTO projects (project_name, user_id) VALUES (?, ?)";
+
+    $stmt = db_get_prepare_stmt($connection, $sql, [$projects["project_name"], $current_user]);
+    $res = mysqli_stmt_execute($stmt);
+
+    return $res;
+}
 function registration($register, $connection) {
     $password_hash = password_hash($register['password'], PASSWORD_DEFAULT);
 
@@ -132,6 +156,37 @@ function session($connection,  $authorization) {
     $session_array = $res ? mysqli_fetch_array($res, MYSQLI_ASSOC) : null;
 
     return $session_array;
+}
+
+
+function link_filter($project_id, $filter_item) {
+
+    $get_data["tasks-switch"] = $filter_item;
+    $get_data["project_id"] = $project_id;
+
+    $scriptname = pathinfo("index.php", PATHINFO_BASENAME);
+    $query = http_build_query($get_data);
+    $url = "/" . $scriptname . "?" . $query;
+
+    return $url;
+}
+
+function sql_filter($date, $add_and, $current_user) {
+    $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
+            FROM tasks AS t 
+            WHERE user_id = $current_user
+            $date $add_and";
+    return $sql;
+}
+
+function sql_task_id($connection, $task_id, $current_user) {
+    $sql = "UPDATE tasks SET task_status = NOT task_status
+        WHERE user_id = $current_user
+        AND id = $task_id";
+
+    $res = mysqli_query($connection, $sql);
+
+    return $res;
 }
 
 function db_get_prepare_stmt($connection, $sql, $data = []) {

@@ -8,10 +8,10 @@
 
 <div class="tasks-controls">
     <nav class="tasks-switch">
-        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-        <a href="/" class="tasks-switch__item">Повестка дня</a>
-        <a href="/" class="tasks-switch__item">Завтра</a>
-        <a href="/" class="tasks-switch__item">Просроченные</a>
+        <a href="<?= link_filter($project_id, "all");?>" class="tasks-switch__item <?php if($tasks_switch == null || $tasks_switch == "all"):?>tasks-switch__item--active<?php endif;?>">Все задачи</a>
+        <a href="<?= link_filter($project_id, "today");?>" class="tasks-switch__item <?php if($tasks_switch == "today"):?>tasks-switch__item--active<?php endif;?>">Повестка дня</a>
+        <a href="<?= link_filter($project_id, "tomorrow");?>" class="tasks-switch__item <?php if($tasks_switch == "tomorrow"):?>tasks-switch__item--active<?php endif;?>">Завтра</a>
+        <a href="<?= link_filter($project_id, "delay");?>" class="tasks-switch__item <?php if($tasks_switch == "delay"):?>tasks-switch__item--active<?php endif;?>">Просроченные</a>
     </nav>
 
     <label class="checkbox">
@@ -30,7 +30,7 @@
                 <?= time_left($item["task_deadline"]) ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1"
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?= $item["id"]; ?>"
                             <?php if ($item["task_status"]): ?>
                                 checked
                             <?php endif; ?>>

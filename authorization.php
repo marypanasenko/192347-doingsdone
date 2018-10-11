@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $required = ['email', 'password'];
 
-
     foreach ($required as $field) {
         if (empty($authorization[$field])) {
             $errors[$field] = "«Заполните это поле»";

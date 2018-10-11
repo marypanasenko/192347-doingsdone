@@ -4,7 +4,7 @@ session_start();
 $connection = mysqli_connect("localhost", "root", "1718","done");
 mysqli_set_charset($connection, "utf8");
 $current_user = 0;
-$show_complete_tasks = rand(0, 1);
+$show_complete_tasks = null;
 $container_with_sidebar = "container--with-sidebar";
 
 if (!$connection) {
@@ -14,3 +14,4 @@ if (!$connection) {
 if (isset($_SESSION["user"])) {
     $current_user = $_SESSION["user"]["id"];
 }
+

@@ -4,7 +4,6 @@ require_once("init.php");
 require_once("db_data.php");
 
 
-
 $body_background = "body-background";
 
 if (!isset($_SESSION['user']))  {
@@ -17,13 +16,11 @@ if (!isset($_SESSION['user']))  {
         "title" => "Дела в порядке",
     ]);
 } else {
+    require_once ("tasks.php");
     $content_side = include_template("content-side.php", [
         "projects" => $projects,
     ]);
-    $page_content = include_template("index.php", [
-        "show_complete_tasks" => $show_complete_tasks,
-        "tasks" => $tasks,
-    ]);
+
     $layout_content = include_template("layout.php", [
         "body_background" => "",
         "container_with_sidebar" => $container_with_sidebar,
