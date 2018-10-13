@@ -1,0 +1,14 @@
+{
+    "name": "mary/done",
+    "description": "Website for tasks",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.1"
+    },
+    "authors": [
+        {
+            "name": "Maria Panasenko",
+            "email": "kerch.pm@gmail.com"
+        }
+    ]
+}

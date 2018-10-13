@@ -4,6 +4,7 @@ require_once("init.php");
 require_once("db_data.php");
 
 $errors = [];
+$value = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tasks = $_POST["tasks"];
@@ -19,11 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $project_id = $tasks["project_id"];
     $dt_project_id = get_project_id($current_user, $connection, $project_id);
 
-
-    if ($project_id !== current($dt_project_id)) {
+    if ($dt_project_id == null) {
         $errors["project_id"] = "Заполнить";
     }
-
 
     if ($_FILES['file']['name'] !== "") {
         $tmp_name = $_FILES['file']['tmp_name'];
@@ -48,7 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $uploded_date = "1970.01.01";
     }
 
-    if (!count($errors)) {
+    if (count($errors)) {
+        $value["task_name"] = $tasks["task_name"];
+    } else {
         $result_post_task = post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user);
 
         if ($result_post_task) {
@@ -63,11 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-
 $page_content = include_template("form-task.php", [
     "tasks" => $tasks,
     "errors" => $errors,
-    "projects" => $projects
+    "projects" => $projects,
+    "value" => $value,
 ]);
 
 $content_side = include_template("content-side.php", [

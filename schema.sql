@@ -40,5 +40,7 @@ CREATE UNIQUE INDEX email ON users(email);
 
 CREATE INDEX task_name ON tasks(task_name);
 
+CREATE FULLTEXT INDEX tasks_search ON tasks (task_name);
+
 
 

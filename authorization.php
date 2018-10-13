@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors["filter-email"] = 1;
     }
 
-    $user = session($connection,  $authorization);
+    $user = session($connection, $authorization);
 
     if (!count($errors) and $user) {
         if (password_verify($authorization["password"], $user["user_pass"])) {
@@ -51,7 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_SESSION["user"])) {
         $page_content = include_template("index.php", [
             "tasks" => $tasks,
-            "show_complete_tasks" => $show_complete_tasks,]);
+            "show_complete_tasks" => $show_complete_tasks,
+        ]);
     }
 }
 

@@ -9,8 +9,4 @@ Thumbs.db
 vendor
 
 
-
-header-auth-user.php
-header-non-auth-user.php
-
 phpinfo.php
