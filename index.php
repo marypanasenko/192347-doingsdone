@@ -5,7 +5,7 @@ require_once("db_data.php");
 
 $body_background = "body-background";
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION["user"])) {
     $page_content = include_template("guest.php", []);
     $layout_content = include_template("layout.php", [
         "body_background" => $body_background,

@@ -1,5 +1,5 @@
 <section class="content__side">
-    <?php if (isset($_SESSION['user'])): ?>
+    <?php if (isset($_SESSION["user"])): ?>
         <h2 class="content__side-heading">Проекты</h2>
         <nav class="main-navigation">
             <ul class="main-navigation__list">

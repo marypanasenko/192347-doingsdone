@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors["project_id"] = "Заполнить";
     }
 
-    if ($_FILES['file']['name'] !== "") {
-        $tmp_name = $_FILES['file']['tmp_name'];
-        $file = $_FILES['file']['name'];
+    if ($_FILES["file"]["name"] !== "") {
+        $tmp_name = $_FILES["file"]["tmp_name"];
+        $file = $_FILES["file"]["name"];
 
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $tmp_name);
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $filename = uniqid();
         $uploded_file = $filename . "." . $file_ext;
 
-        move_uploaded_file($tmp_name, 'uploads/' . $filename . "." . $file_ext);
+        move_uploaded_file($tmp_name, "uploads/" . $filename . "." . $file_ext);
     } else {
         $uploded_file = "";
     }

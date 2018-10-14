@@ -11,7 +11,7 @@
 
 <table>
 
-    <p>Уважаемый, . У вас запланирована </p>
+    <p>Уважаемый, <?= $user_name; ?>. У вас запланированы следующие задачи </p>
 
     <thead>
     <tr>
@@ -22,8 +22,8 @@
     <tbody>
     <?php foreach ($user_tasks as $value => $task): ?>
         <tr>
-            <td><?=htmlspecialchars($task["task_name"]);?></td>
-            <td><?=$task["task_deadline"];?></td>
+            <td><?= htmlspecialchars($task["task_name"]); ?></td>
+            <td><?= $task["task_deadline"]; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

@@ -31,8 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (count($errors)) {
-        $tpl_data['values'] = $register;
-        $tpl_data['errors'] = $errors;
+        $tpl_data["values"] = $register;
+        $tpl_data["errors"] = $errors;
     } else {
 
         $new_user = registration($register, $connection);

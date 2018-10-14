@@ -5,12 +5,12 @@ require_once("db_data.php");
 
 $get_data = [];
 $tasks_search = "";
-$search = $_GET["search"] ?? '';
+$search = $_GET["search"] ?? "";
 
 if ($search) {
     $search_trim = trim($search);
 
-    $result = search_sql($connection, $search_trim);
+    $result = search_sql($connection, $search_trim, $current_user);
     $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     if (empty($tasks)) {
         $tasks_search = "Ничего не найдено по вашему запросу";

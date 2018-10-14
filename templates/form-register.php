@@ -18,7 +18,7 @@
                 <?php if (isset($errors["email"]) || isset($errors["email_duplicate"]) || isset($errors["filter-email"])): ?>
                     form__input--error
                 <?php endif; ?>
-                " type="text" name="signup[email]" id="email" value="<?= $values['email'] ?? ''; ?>"
+                " type="text" name="signup[email]" id="email" value="<?= $values["email"] ?? ""; ?>"
                placeholder="Введите e-mail">
 
         <?php if (isset($errors["filter-email"])): ?>

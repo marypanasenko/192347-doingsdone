@@ -4,13 +4,13 @@
     <div class="form__row">
         <label class="form__label" for="email">E-mail <sup>*</sup></label>
         <?php if (isset($errors["email"])): ?>
-            <p class="form__message"><?= $errors['email'] ?? ''; ?></p>
+            <p class="form__message"><?= $errors["email"] ?? ""; ?></p>
         <?php endif; ?>
         <input class="form__input
 
               <?php if (isset($errors["filter-email"]) || isset($errors["email"])): ?>
                     form__input--error
-              <?php endif; ?>" type="text" name="auth[email]" id="email" value="<?= $values['email'] ?? ''; ?>"
+              <?php endif; ?>" type="text" name="auth[email]" id="email" value="<?= $values["email"] ?? ""; ?>"
                placeholder="Введите e-mail">
 
         <?php if (isset($errors["filter-email"])): ?>
@@ -21,7 +21,7 @@
     <div class="form__row">
         <label class="form__label" for="password">Пароль <sup>*</sup></label>
         <?php if (isset($errors["password"])): ?>
-            <p class="form__message"><?= $errors['password'] ?? ''; ?></p>
+            <p class="form__message"><?= $errors["password"] ?? ""; ?></p>
         <?php endif; ?>
         <input class="form__input
               <?php if (isset($errors["password"])): ?>

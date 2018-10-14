@@ -7,8 +7,8 @@
  */
 function include_template($name, $data)
 {
-    $name = 'templates/' . $name;
-    $result = '';
+    $name = "templates/" . $name;
+    $result = "";
 
     if (!file_exists($name)) {
         return $result;
@@ -16,7 +16,7 @@ function include_template($name, $data)
 
     ob_start();
     extract($data);
-    require_once $name;
+    require $name;
 
     $result = ob_get_clean();
 
@@ -108,7 +108,7 @@ function get_project_name($current_user, $connection, $project_name)
  * @param $current_user -- текущий пользователь
  * @param $connection -- установка соединения
  * @param $project_id -- ID проекта
- * @return array|null - возвращает массив задач
+ * @return array|null -- возвращает массив задач
  */
 
 function tasks_sql($current_user, $connection, $project_id)
@@ -132,7 +132,7 @@ function tasks_sql($current_user, $connection, $project_id)
  * Делает запрос в БД, выбирает проекты из таблицы проектов текущего пользователя
  * @param $current_user -- текущий пользователь
  * @param $connection -- установка соединения
- * @return array|null возвращает массив проектов
+ * @return array|null -- возвращает массив проектов
  */
 function projects_sql($current_user, $connection)
 {
@@ -204,8 +204,8 @@ function post_project($projects, $connection, $current_user)
  */
 function registration($register, $connection)
 {
-    $password_hash = password_hash($register['password'], PASSWORD_DEFAULT);
-    $sql = 'INSERT INTO users (reg_date, email, user_name, user_pass, token) VALUES (NOW(), ?, ?, ?, "")';
+    $password_hash = password_hash($register["password"], PASSWORD_DEFAULT);
+    $sql = "INSERT INTO users (reg_date, email, user_name, user_pass, token) VALUES (NOW(), ?, ?, ?, '')";
 
     $stmt = db_get_prepare_stmt($connection, $sql, [$register['email'], $register["name"], $password_hash]);
     $result = mysqli_stmt_execute($stmt);
@@ -302,18 +302,40 @@ function sql_task_id($connection, $task_id, $current_user)
 
 /**
  * Осуществляет полнотекстовый поиск по БД
- * @param $connection - установка соединения
- * @param $search_trim - искомое слово
- * @return bool|mysqli_result - возраащет результаты
+ * @param $connection -- установка соединения
+ * @param $search_trim -- искомое слово
+ * @param $current_user -- текущий пользователь
+ * @return bool|mysqli_result -- возраащет результаты
  */
-function search_sql($connection, $search_trim) {
+function search_sql($connection, $search_trim, $current_user)
+{
     $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
             FROM tasks AS t 
-            WHERE MATCH(task_name) AGAINST((?) IN BOOLEAN MODE)";
+            WHERE MATCH(task_name) AGAINST((?) IN BOOLEAN MODE)
+            AND user_id = $current_user";
 
     $stmt = db_get_prepare_stmt($connection, $sql, [("*$search_trim*")]);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
+
+    return $result;
+}
+
+/**
+ * Делает запрос в БД о невыполненных задачах, до окончания срока выполнения которых осталось меньше часа.
+ * @param $connection -- установка соединения
+ * @return bool|mysqli_result - возвращает результат
+ */
+function undone_tasks($connection)
+{
+    $sql = "SELECT *, date_format(task_deadline, '%k:%i %d.%m') AS task_deadline
+            FROM tasks AS t
+            LEFT JOIN users AS u ON u.id = t.user_id
+            WHERE task_status = 0
+            AND task_deadline >= CURRENT_TIMESTAMP
+            AND task_deadline <= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL +1 HOUR);";
+
+    $result = mysqli_query($connection, $sql);
 
     return $result;
 }
@@ -331,20 +353,20 @@ function db_get_prepare_stmt($connection, $sql, $data = [])
     $stmt = mysqli_prepare($connection, $sql);
 
     if ($data) {
-        $types = '';
+        $types = "";
         $stmt_data = [];
 
         foreach ($data as $value) {
             $type = null;
 
             if (is_int($value)) {
-                $type = 'i';
+                $type = "i";
             } else {
                 if (is_string($value)) {
-                    $type = 's';
+                    $type = "s";
                 } else {
                     if (is_double($value)) {
-                        $type = 'd';
+                        $type = "d";
                     }
                 }
             }
@@ -357,7 +379,7 @@ function db_get_prepare_stmt($connection, $sql, $data = [])
 
         $values = array_merge([$stmt, $types], $stmt_data);
 
-        $func = 'mysqli_stmt_bind_param';
+        $func = "mysqli_stmt_bind_param";
         $func(...$values);
     }
 
