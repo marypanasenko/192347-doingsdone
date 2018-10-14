@@ -301,6 +301,24 @@ function sql_task_id($connection, $task_id, $current_user)
 }
 
 /**
+ * Осуществляет полнотекстовый поиск по БД
+ * @param $connection - установка соединения
+ * @param $search_trim - искомое слово
+ * @return bool|mysqli_result - возраащет результаты
+ */
+function search_sql($connection, $search_trim) {
+    $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
+            FROM tasks AS t 
+            WHERE MATCH(task_name) AGAINST((?) IN BOOLEAN MODE)";
+
+    $stmt = db_get_prepare_stmt($connection, $sql, [("*$search_trim*")]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    return $result;
+}
+
+/**
  * Подгатавливает запрос на отправку в БД,
  * делая его безопасными для внедрения
  * @param $connection -- установка соединения

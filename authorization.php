@@ -26,6 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $user = session($connection, $authorization);
 
+    if (!$user) {
+        $errors["email"] = "Такой пользователь не найден";
+    }
+
     if (!count($errors) and $user) {
         if (password_verify($authorization["password"], $user["user_pass"])) {
             $_SESSION["user"] = $user;
@@ -35,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     } else {
-        $errors["email"] = "Такой пользователь не найден";
+        $errors["password"] = "Введите пароль";
     }
 
     if (count($errors)) {

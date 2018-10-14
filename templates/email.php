@@ -11,20 +11,19 @@
 
 <table>
 
-    <p>Уважаемый, <?=$user_name;?>. У вас запланирована</p>
+    <p>Уважаемый, . У вас запланирована </p>
+
     <thead>
     <tr>
-        <th>Номер</th>
         <th style="width: 200px">Название задачи</th>
         <th>Время</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($future_tasks as $value => $task): ?>
+    <?php foreach ($user_tasks as $value => $task): ?>
         <tr>
-            <td><?=$value+1;?></td>
-            <td><?=htmlspecialchars($task['task_name']);?></td>
-            <td><?=$task['task_deadline'];?></td>
+            <td><?=htmlspecialchars($task["task_name"]);?></td>
+            <td><?=$task["task_deadline"];?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

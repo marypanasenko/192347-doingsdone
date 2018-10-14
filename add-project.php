@@ -13,10 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $project_name = $project["project_name"];
 
     if (empty($project_name)) {
-        $errors["project_name"] = "«Заполните это поле»";
+        $errors["project_name"] = "Заполните это поле";
     } else {
         $dt_project_name = get_project_name($current_user, $connection, $project_name);
-        if (current($dt_project_name) == $project_name) {
+
+        if (isset($project_name) && current($dt_project_name) == $project_name) {
             $errors["name_duplicate"] = "Такой проект уже есть";
         }
     }

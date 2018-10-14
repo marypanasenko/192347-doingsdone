@@ -9,13 +9,8 @@ $search = $_GET["search"] ?? '';
 
 if ($search) {
     $search_trim = trim($search);
-    $sql = "SELECT t.*, date_format(task_deadline, '%d.%m.%Y') AS task_deadline
-            FROM tasks AS t 
-            WHERE MATCH(task_name) AGAINST(?)";
 
-    $stmt = db_get_prepare_stmt($connection, $sql, [$search_trim]);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $result = search_sql($connection, $search_trim);
     $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
     if (empty($tasks)) {
         $tasks_search = "Ничего не найдено по вашему запросу";
