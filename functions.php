@@ -90,12 +90,12 @@ function get_project_id($current_user, $connection, $project_id)
  * @return array|null -- возвращает имя проекта текущего пользователя
  */
 
-function get_project_name($current_user, $connection, $project_name)
+function get_project_name($current_user, $connection, $safe_project_name)
 {
     $sql = "SELECT p.project_name
         FROM projects AS p
         WHERE user_id = $current_user
-        AND project_name = '$project_name'";
+        AND project_name = '$safe_project_name'";
     $result = mysqli_query($connection, $sql);
     $project_name_result = mysqli_fetch_row($result);
 

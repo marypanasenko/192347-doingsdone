@@ -5,6 +5,13 @@ require_once("db_data.php");
 
 $errors = [];
 $value = [];
+$dt_project_id = "";
+
+if (!isset($_SESSION["user"])) {
+    http_response_code(404);
+    header("HTTP/1.0 404 Not Found");
+    die();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tasks = $_POST["tasks"];
@@ -17,11 +24,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $project_id = $tasks["project_id"];
-    $dt_project_id = get_project_id($current_user, $connection, $project_id);
+
+    if (empty($errors)) {
+        $project_id = $tasks["project_id"];
+        $safe_project_id = mysqli_real_escape_string($connection, $project_id);
+        $dt_project_id = get_project_id($current_user, $connection, $safe_project_id);
+    }
+
 
     if ($dt_project_id == null) {
         $errors["project_id"] = "Заполнить";
+
     }
 
     if ($_FILES["file"]["name"] !== "") {
@@ -42,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($tasks["task_deadline"] !== "") {
-        $uploded_date = $tasks["task_deadline"];
+        $uploded_date = strtotime($tasks["task_deadline"]);
     } else {
         $uploded_date = "1970.01.01";
     }
@@ -50,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (count($errors)) {
         $value["task_name"] = $tasks["task_name"];
     } else {
+
+        $uploded_date = date('Y-m-d H:i:s', $uploded_date);
         $result_post_task = post_task($tasks, $connection, $uploded_date, $uploded_file, $current_user);
 
         if ($result_post_task) {

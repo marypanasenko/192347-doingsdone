@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="user-menu__data">
-                            <p><?= $_SESSION["user"]["user_name"] ?></p>
+                            <p><?= strip_tags($_SESSION["user"]["user_name"]); ?></p>
 
                             <a href="../logout.php">Выйти</a>
                         </div>

@@ -7,6 +7,11 @@ require_once("db_data.php");
 $errors = [];
 $value = [];
 
+if (!isset($_SESSION["user"])) {
+    header("HTTP/1.0 404 Not Found");
+    die();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $project = $_POST["project"];
