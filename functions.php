@@ -69,12 +69,12 @@ function error_template($connection)
  * @return array|null -- возвращает результат с ID проекта текущего пользователя
  */
 
-function get_project_id($current_user, $connection, $project_id)
+function get_project_id($current_user, $connection, $safe_project_id)
 {
     $sql = "SELECT p.*
         FROM projects AS p
         WHERE user_id = $current_user
-        AND id = $project_id";
+        AND id = $safe_project_id";
 
     $result = mysqli_query($connection, $sql);
     $project_id_result = mysqli_fetch_row($result);
