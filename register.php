@@ -7,7 +7,7 @@ require_once("db_data.php");
 $errors = [];
 $tpl_data = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $register = $_POST["signup"];
 
     $required = ["email", "password", "name"];

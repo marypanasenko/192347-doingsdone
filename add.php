@@ -27,8 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($errors)) {
         $project_id = $tasks["project_id"];
-        $safe_project_id = mysqli_real_escape_string($connection, $project_id);
-        $dt_project_id = get_project_id($current_user, $connection, $safe_project_id);
+        $dt_project_id = get_project_id($current_user, $connection, $project_id);
     }
 
 

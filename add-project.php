@@ -13,18 +13,17 @@ if (!isset($_SESSION["user"])) {
     die();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $project = $_POST["project"];
     $project_name = $project["project_name"];
-    $safe_project_name = mysqli_real_escape_string($connection, $project_name);
 
     if (empty($project_name)) {
         $errors["project_name"] = "Заполните это поле";
     } else {
-        $dt_project_name = get_project_name($current_user, $connection, $safe_project_name);
+        $dt_project_name = get_project_name($current_user, $connection, $project_name);
 
-        if (isset($project_name) && current($dt_project_name) == $project_name) {
+        if (isset($project_name) && current($dt_project_name) === $project_name) {
             $errors["name_duplicate"] = "Такой проект уже есть";
         }
     }

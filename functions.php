@@ -69,8 +69,9 @@ function error_template($connection)
  * @return array|null -- возвращает результат с ID проекта текущего пользователя
  */
 
-function get_project_id($current_user, $connection, $safe_project_id)
+function get_project_id($current_user, $connection, $project_id)
 {
+    $safe_project_id = mysqli_real_escape_string($connection, $project_id);
     $sql = "SELECT p.*
         FROM projects AS p
         WHERE user_id = $current_user
@@ -90,8 +91,9 @@ function get_project_id($current_user, $connection, $safe_project_id)
  * @return array|null -- возвращает имя проекта текущего пользователя
  */
 
-function get_project_name($current_user, $connection, $safe_project_name)
+function get_project_name($current_user, $connection, $project_name)
 {
+    $safe_project_name = mysqli_real_escape_string($connection, $project_name);
     $sql = "SELECT p.project_name
         FROM projects AS p
         WHERE user_id = $current_user
