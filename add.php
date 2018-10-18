@@ -13,7 +13,7 @@ if (!isset($_SESSION["user"])) {
     die();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $tasks = $_POST["tasks"];
 
     $required = ["task_name", "project_id"];
